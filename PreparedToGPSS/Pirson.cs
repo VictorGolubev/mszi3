@@ -13,9 +13,9 @@ namespace PreparedToGPSS
             double MX = getMX(vector);//Мат ожидание
             double DX = getDX(vector, MX); //Дисперсия
 
-            //Параметры нормального для экспоненциального распределения
+            //Параметры для экспоненциального распределения
             double u = 1 / MX; //Плотность
-            //Параметры распределение для экспоненциального распределения
+            //Параметры для нормального распределения
             double a = MX; //Мат ожидание
             double b = Math.Sqrt(DX); //среднеквадратичное отклонение распределения
 
@@ -24,8 +24,9 @@ namespace PreparedToGPSS
             if (HiNorm < HiExp)
                 result.Add("Norm", "a = " + a + " b = " + b);
             else
-                result.Add("Exp", "u = " + u);
-            
+                //if(HiExp > 0)
+                    result.Add("Exp", "u = " + u);
+                //else result.Add("Norm", "a = " + a + " b = " + b);
             return result;
         }
         private static double getHiNormalDistibution(List<double> vector, double sum, double a, double b)
@@ -38,7 +39,7 @@ namespace PreparedToGPSS
                 temp = (distribution[i] - vector[i]) * (distribution[i] - vector[i]) / distribution[i]; // вес i-го разряда на меру отклонения Пирсонаа (Отклонение от ожидаемого в квадрате)
                 H += temp;
             }
-            return H;
+            return Math.Abs(H);
         }
         private static double getHiExpDistibution(List<double> vector, double sum, double u)
         {
@@ -50,7 +51,7 @@ namespace PreparedToGPSS
                 temp = (distribution[i] - vector[i]) * (distribution[i] - vector[i]) / distribution[i]; // вес i-го разряда на меру отклонения Пирсонаа (Отклонение от ожидаемого в квадрате)
                 H += temp;
             }
-            return H;
+            return Math.Abs(H);
         }
 
         private static List<double> getNormalDistribution(List<double> vector, double sum, double a, double b)

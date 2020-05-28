@@ -25,7 +25,7 @@ namespace ConnectMySQL
                 conn.Open();
 
                 //Запрос на использование схемы БД
-                string sqlQuery = "USE dump_rasulov";
+                string sqlQuery = "USE dump_malisheva";
                 MySqlCommand command = new MySqlCommand(sqlQuery, conn);
                 command.ExecuteNonQuery();
 
@@ -49,10 +49,6 @@ namespace ConnectMySQL
                 foreach (KeyValuePair<string, List<string>> entry in tableNameAndVectors)
                 {
                     string tableName = entry.Key;
-                    string queryCount = getQueryCountInTable(tableName);
-                    command = new MySqlCommand(queryCount, conn);
-                    int count = Convert.ToInt32(command.ExecuteScalar());
-                    //Если в таблице меньше 100 пакетов то и 100 и более групп невозможно получить
                     List<DateTime> dateTimes = new List<DateTime>(); // Время всех пакетов с соблюдением чередности
                     List<TimeSpan> listForVector = new List<TimeSpan>(); // параметр промежуток между пакетами
 
@@ -100,16 +96,18 @@ namespace ConnectMySQL
                             {
                                 //Если интервал превышает заданное пороговое значение
                                 endBlock = dateTimes[i - 1];
-                                double temp = (endBlock - beginBlock).TotalMilliseconds;
+                                double temp = (endBlock - beginBlock).TotalMinutes;
                                 durationGroups.Add(temp);
                                 sumDuration += temp;
-                                temp = (newBeginBlock - beginBlock).TotalMilliseconds;
+                                temp = (newBeginBlock - beginBlock).TotalMinutes;
                                 spanGroups.Add(temp);
                                 sumSpan += temp;
                                 beginBlock = dateTimes[i];
                             }
                         }
 
+                        entry.Value.Add(durationGroups.ToString());
+                        entry.Value.Add(spanGroups.ToString());
                         //Тут у нас уже есть два вектора durationGroups и spanGroups
                         Dictionary<string, string> parametrs = Pirson.getParams(durationGroups, sumDuration);
                         foreach (KeyValuePair<string, string> temp in parametrs)
@@ -145,10 +143,7 @@ namespace ConnectMySQL
 
             Console.Read();
         }
-        private static string getQueryCountInTable(string tableName)
-        {
-            return "SELECT COUNT(*) FROM `" + tableName + "`;";
-        }
+
         private static string getQueryTimeStampsFromTable(string tableName)
         {
             return "SELECT time_stamp FROM `" + tableName + "`;";
