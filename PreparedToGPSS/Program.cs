@@ -11,7 +11,7 @@ namespace ConnectMySQL
     {
 
         static void Main(string[] args)
-        {
+            {
             Dictionary<string, List<string>> tableNameAndVectors = new Dictionary<string, List<string>>();
 
             Console.WriteLine("Getting Connection ...");
@@ -25,7 +25,7 @@ namespace ConnectMySQL
                 conn.Open();
 
                 //Запрос на использование схемы БД
-                string sqlQuery = "USE dump_malisheva";
+                string sqlQuery = "USE golubev";
                 MySqlCommand command = new MySqlCommand(sqlQuery, conn);
                 command.ExecuteNonQuery();
 
@@ -96,6 +96,7 @@ namespace ConnectMySQL
                             {
                                 //Если интервал превышает заданное пороговое значение
                                 endBlock = dateTimes[i - 1];
+                                newBeginBlock = dateTimes[i];
                                 double temp = (endBlock - beginBlock).TotalMinutes;
                                 durationGroups.Add(temp);
                                 sumDuration += temp;
