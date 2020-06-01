@@ -25,7 +25,7 @@ namespace ConnectMySQL
                 conn.Open();
 
                 //Запрос на использование схемы БД
-                string sqlQuery = "USE golubev";
+                string sqlQuery = "USE dump_rasulov";
                 MySqlCommand command = new MySqlCommand(sqlQuery, conn);
                 command.ExecuteNonQuery();
 
@@ -34,7 +34,7 @@ namespace ConnectMySQL
                 command.ExecuteNonQuery();
 
 
-                //Получение таблиц для которых будут подсчитаны векторы
+                //Получение таблиц для которых будут подсчитаны векторы     
                 string sqlQuerySelectTebleName = "SELECT table_name FROM sample;";
                 command = new MySqlCommand(sqlQuerySelectTebleName, conn);
                 MySqlDataReader reader = command.ExecuteReader();
