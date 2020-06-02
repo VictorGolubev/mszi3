@@ -25,13 +25,13 @@ namespace ConnectMySQL
                 conn.Open();
 
                 //Запрос на использование схемы БД
-                string sqlQuery = "USE dump_rasulov";
+                string sqlQuery = "USE golubev;";
                 MySqlCommand command = new MySqlCommand(sqlQuery, conn);
                 command.ExecuteNonQuery();
 
-                sqlQuery = "CREATE TABLE `params_for_distribution` (`id` INT NOT NULL AUTO_INCREMENT, `table_name` VARCHAR(450) NULL, `type_of_distributions` VARCHAR(450) NULL, `params` VARCHAR(450) NULL, PRIMARY KEY(`id`));";
-                command = new MySqlCommand(sqlQuery, conn);
-                command.ExecuteNonQuery();
+                //sqlQuery = "CREATE TABLE `params_for_distribution` (`id` INT NOT NULL AUTO_INCREMENT, `table_name` VARCHAR(450) NULL, `type_of_distributions` VARCHAR(450) NULL, `params` VARCHAR(450) NULL, PRIMARY KEY(`id`));";
+                //command = new MySqlCommand(sqlQuery, conn);
+                //command.ExecuteNonQuery();
 
 
                 //Получение таблиц для которых будут подсчитаны векторы     
@@ -48,6 +48,7 @@ namespace ConnectMySQL
                 //Получение порогового значения и векторов
                 foreach (KeyValuePair<string, List<string>> entry in tableNameAndVectors)
                 {
+                    Console.WriteLine("*");
                     string tableName = entry.Key;
                     List<DateTime> dateTimes = new List<DateTime>(); // Время всех пакетов с соблюдением чередности
                     List<TimeSpan> listForVector = new List<TimeSpan>(); // параметр промежуток между пакетами

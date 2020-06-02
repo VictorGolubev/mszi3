@@ -57,9 +57,9 @@ namespace PreparedToGPSS
             max += 1;
             double step = (max - min) / 5.0;
             double temp = min;
-            while (temp != max)
+            while (temp <= max)
             {
-                result.Add(temp + "-" + (temp + step), 0);
+                result.Add(temp + "|" + (temp + step), 0);
                 temp += step;
             }
             for (int i = 0; i < vector.Count; i++)
@@ -86,8 +86,8 @@ namespace PreparedToGPSS
             {
                 fact_znach.Add(entry.Value);
                 string range = entry.Key;
-                double x_i = Convert.ToDouble(range.Substring(0, range.IndexOf('-')));
-                double x_i_plus_1 = Convert.ToDouble(range.Substring(range.IndexOf('-') + 1));
+                double x_i = Convert.ToDouble(range.Substring(0, range.IndexOf('|')));
+                double x_i_plus_1 = Convert.ToDouble(range.Substring(range.IndexOf('|') + 1));
                 teoret_ver.Add(getExpRangeVer(lambda, x_i, x_i_plus_1));
             }
             for (int i = 0; i < teoret_ver.Count; i++)
@@ -111,8 +111,8 @@ namespace PreparedToGPSS
             {
                 fact_znach.Add(entry.Value);
                 string range = entry.Key;
-                double x_i = Convert.ToDouble(range.Substring(0, range.IndexOf('-')));
-                double x_i_plus_1 = Convert.ToDouble(range.Substring(range.IndexOf('-') + 1));
+                double x_i = Convert.ToDouble(range.Substring(0, range.IndexOf('|')));
+                double x_i_plus_1 = Convert.ToDouble(range.Substring(range.IndexOf('|') + 1));
                 double y_i = 0;
                 if (count == 1)
                     y_i = -5;
@@ -136,15 +136,15 @@ namespace PreparedToGPSS
         }
         private static bool containsInRange(string range, double x)
         {
-            double beginRange = Convert.ToDouble(range.Substring(0, range.IndexOf('-')));
-            double endRange = Convert.ToDouble(range.Substring(range.IndexOf('-') + 1));
+            double beginRange = Convert.ToDouble(range.Substring(0, range.IndexOf('|')));
+            double endRange = Convert.ToDouble(range.Substring(range.IndexOf('|') + 1));
             return x >= beginRange && x < endRange;
         }
 
         private static double getSrednRange(string range)
         {
-            double beginRange = Convert.ToDouble(range.Substring(0, range.IndexOf('-')));
-            double endRange = Convert.ToDouble(range.Substring(range.IndexOf('-') + 1));
+            double beginRange = Convert.ToDouble(range.Substring(0, range.IndexOf('|')));
+            double endRange = Convert.ToDouble(range.Substring(range.IndexOf('|') + 1));
             return (beginRange + endRange) / 2;
         }
 
